@@ -1,4 +1,4 @@
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { todos } from "~/queries/todos";
 
 export const loader = async () => await todos();
@@ -62,6 +62,7 @@ export default function TodosRoute() {
               key={id}
               className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow"
             >
+              <Link to={id}>
               <div className="flex w-full items-center justify-between space-x-6 p-6">
                 <div className="flex-1 truncate">
                   <div className="flex items-center space-x-3">
@@ -76,7 +77,8 @@ export default function TodosRoute() {
                     {content}
                   </p>
                 </div>
-              </div>
+              </div>  
+              </Link>
             </li>
           ))}
         </ul>
