@@ -30,7 +30,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="bg-[#e5e7eb]">
         <Outlet />
         <LiveReload />
       </body>
