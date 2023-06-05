@@ -6,8 +6,11 @@
     "dev": "remix dev",
     "start": "remix-serve build",
     "typecheck": "tsc",
-    "lint": "eslint --ext .ts,.tsx .",
-    "fix": "prettier --write app/**/*.ts && eslint  --ext .ts,.tsx . --fix"
+    "lint:eslint": "eslint --cache './**/*.{js,jsx,ts,tsx}'",
+    "lint:prettier": "prettier --check './**/*.{js,jsx,ts,tsx,css,scss}'",
+    "fix": "run-s fix:prettier fix:eslint",
+    "fix:eslint": "yarn lint:eslint --fix",
+    "fix:prettier": "yarn lint:prettier --write"
   },
   "dependencies": {
     "@prisma/client": "^4.15.0",
