@@ -1,14 +1,14 @@
-import type { DataFunctionArgs } from "@remix-run/node";
-import type { ValidationResult } from "remix-validated-form";
-import { redirect } from "@remix-run/node";
-import { signUp } from "~/utils/firebase.server";
-import { createUser } from "~/mutations/createUser";
-import { userSchema } from "~/zod/schema";
-import { ValidatedForm, validationError } from "remix-validated-form";
-import { withZod } from "@remix-validated-form/with-zod";
-import { FormInput } from "~/components/FormInput";
-import { FormButton } from "~/components/FormButton";
-import AppError from "~/appError";
+import type { DataFunctionArgs } from '@remix-run/node';
+import type { ValidationResult } from 'remix-validated-form';
+import { redirect } from '@remix-run/node';
+import { signUp } from '~/utils/firebase.server';
+import { createUser } from '~/mutations/createUser';
+import { userSchema } from '~/zod/schema';
+import { ValidatedForm, validationError } from 'remix-validated-form';
+import { withZod } from '@remix-validated-form/with-zod';
+import { FormInput } from '~/components/FormInput';
+import { FormButton } from '~/components/FormButton';
+import AppError from '~/appError';
 
 export const validator = withZod(userSchema);
 
@@ -27,7 +27,7 @@ export const action = async ({ request }: DataFunctionArgs) => {
       email: string;
       password: string;
     }>;
-    field: "email" | "password";
+    field: 'email' | 'password';
     message: string;
   }) => {
     return validationError(
@@ -43,22 +43,26 @@ export const action = async ({ request }: DataFunctionArgs) => {
 
   try {
     const user = await signUp(email, password);
-    
+
     // TOD: Oauth で何も処理してないの場合は non null アサーションはまずい
     await createUser({ id: user.uid, email: user.email! });
-    
-    return redirect("/todos/");
+
+    return redirect('/todos/');
   } catch (error) {
     if (!(error instanceof AppError)) throw error;
 
     const { message } = error;
     switch (error.name) {
-      case "FirebaseAuthEmailAlreadyInUseError":
-        return validationFirebaseAuthError({ message, field: "email", form });
-      case "FirebaseAuthInvalidEmail":
-        return validationFirebaseAuthError({ message, field: "email", form });
-      case "FirebaseAuthWeakPassword":
-        return validationFirebaseAuthError({ message, field: "password", form });
+      case 'FirebaseAuthEmailAlreadyInUseError':
+        return validationFirebaseAuthError({ message, field: 'email', form });
+      case 'FirebaseAuthInvalidEmail':
+        return validationFirebaseAuthError({ message, field: 'email', form });
+      case 'FirebaseAuthWeakPassword':
+        return validationFirebaseAuthError({
+          message,
+          field: 'password',
+          form,
+        });
       default:
         return error as Error;
     }

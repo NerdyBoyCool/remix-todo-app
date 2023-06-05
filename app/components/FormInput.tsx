@@ -1,5 +1,5 @@
-import classNames from "classnames";
-import { useField } from "remix-validated-form";
+import classNames from 'classnames';
+import { useField } from 'remix-validated-form';
 
 type FormInputProps = {
   type?: string;
@@ -10,7 +10,7 @@ type FormInputProps = {
 
 export const FormInput = ({ name, label, id, type }: FormInputProps) => {
   const { getInputProps, error } = useField(name);
-  
+
   return (
     <>
       <label
@@ -22,13 +22,13 @@ export const FormInput = ({ name, label, id, type }: FormInputProps) => {
       <input
         {...getInputProps({
           className: classNames(
-            "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker",
+            'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker',
             {
-              "border-red-500": error,
+              'border-red-500': error,
             }
           ),
           id: id ? id : name,
-          type: type ? type : "text",
+          type: type ? type : 'text',
         })}
       />
       {error && (

@@ -1,9 +1,9 @@
-import { FirebaseError, initializeApp } from "firebase/app";
+import type { FirebaseError } from 'firebase/app';
+import { initializeApp } from 'firebase/app';
 // import { getAnalytics } from "firebase/analytics";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import type { UserCredential } from "firebase/auth";
-import { AuthErrorCodes } from "firebase/auth";
-import AppError from "~/appError";
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import type { UserCredential } from 'firebase/auth';
+import AppError from '~/appError';
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -21,7 +21,7 @@ initializeApp(firebaseConfig);
 export const signUp = async (
   email: string,
   password: string
-): Promise<UserCredential["user"]> => {
+): Promise<UserCredential['user']> => {
   const auth = getAuth();
   try {
     const userCredential = await createUserWithEmailAndPassword(
@@ -32,12 +32,15 @@ export const signUp = async (
     return userCredential.user;
   } catch (error) {
     switch ((error as FirebaseError)?.code) {
-      case "auth/email-already-in-use":
-        throw new AppError("FirebaseAuthEmailAlreadyInUseError", "email is already taken")
-      case "auth/invalid-email":
-        throw new AppError("FirebaseAuthInvalidEmail", "invalid email")
-      case "weak-password":
-        throw new AppError("FirebaseAuthWeakPassword", "weak passowrd")
+      case 'auth/email-already-in-use':
+        throw new AppError(
+          'FirebaseAuthEmailAlreadyInUseError',
+          'email is already taken'
+        );
+      case 'auth/invalid-email':
+        throw new AppError('FirebaseAuthInvalidEmail', 'invalid email');
+      case 'weak-password':
+        throw new AppError('FirebaseAuthWeakPassword', 'weak passowrd');
       default:
         throw error as Error;
     }
