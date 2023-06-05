@@ -1,25 +1,20 @@
 import type { LinksFunction } from "@remix-run/node";
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-} from "@remix-run/react";
-import resetCSS from '~/styles/globals/reset.css'
-import tailwindCSS from '~/styles/globals/tailwind.css'
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
+import resetCSS from "~/styles/globals/reset.css";
+import tailwindCSS from "~/styles/globals/tailwind.css";
 
 export const links: LinksFunction = () => {
   return [
     {
       rel: "stylesheet",
-      href: resetCSS      
+      href: resetCSS,
     },
     {
       rel: "stylesheet",
-      href: tailwindCSS      
-    }
-  ]
-}
+      href: tailwindCSS,
+    },
+  ];
+};
 
 export default function App() {
   return (
@@ -32,6 +27,8 @@ export default function App() {
       </head>
       <body className="bg-[#e5e7eb]">
         <Outlet />
+        <Scripts />
+        <ScrollRestoration />
         <LiveReload />
       </body>
     </html>
