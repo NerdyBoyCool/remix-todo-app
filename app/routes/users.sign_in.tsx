@@ -1,12 +1,15 @@
 import type { DataFunctionArgs } from '@remix-run/node';
 import { redirect } from '@remix-run/node';
-import { signUp, validationFirebaseAuthError } from '~/utils/firebase.server';
-import { createUser } from '~/mutations/createUser';
-import { userSchema } from '~/zod/schema';
 import { ValidatedForm, validationError } from 'remix-validated-form';
-import { withZod } from '@remix-validated-form/with-zod';
 import { FormInput } from '~/components/FormInput';
 import { FormButton } from '~/components/FormButton';
+import { userSchema } from '~/zod/schema';
+import { withZod } from '@remix-validated-form/with-zod';
+import {
+  getUserId,
+  signIn,
+  validationFirebaseAuthError,
+} from '~/utils/firebase.server';
 import AppError from '~/appError';
 import { commitSession } from '~/session';
 
@@ -19,7 +22,7 @@ export const action = async ({ request }: DataFunctionArgs) => {
   const { email, password } = form.data;
 
   try {
-    const session = await signUp(email, password);
+    const session = await signIn(email, password);
 
     return redirect('/todos', {
       headers: {
@@ -30,26 +33,14 @@ export const action = async ({ request }: DataFunctionArgs) => {
     if (!(error instanceof AppError)) throw error;
 
     const { message } = error;
-    switch (error.name) {
-      case 'FirebaseAuthEmailAlreadyInUseError':
-        return validationFirebaseAuthError({ message, field: 'email', form });
-      case 'FirebaseAuthInvalidEmail':
-        return validationFirebaseAuthError({ message, field: 'email', form });
-      case 'FirebaseAuthWeakPassword':
-        return validationFirebaseAuthError({
-          message,
-          field: 'password',
-          form,
-        });
-      default:
-        return error as Error;
+    if (error.name == 'FirebaseAuthUserNotFound') {
+      return validationFirebaseAuthError({ message, field: 'email', form });
     }
   }
 };
-
-export default function UsersSignUpRoute() {
+export default function UsersSignInRoute() {
   return (
-    <ValidatedForm validator={validator} method="post" noValidate>
+    <ValidatedForm validator={validator} method="post">
       <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
         <div className="mb-4">
           <FormInput name="email" label="メールアドレス" />
