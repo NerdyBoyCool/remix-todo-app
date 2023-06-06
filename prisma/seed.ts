@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 
 const db = new PrismaClient();
 
@@ -17,12 +17,12 @@ seed();
 function todos() {
   return [
     {
-      title: "Prisma のコマンドを整理する",
-      content: "チュートリアルをやる",
+      title: 'Prisma のコマンドを整理する',
+      content: 'チュートリアルをやる',
     },
     {
-      title: "Remix で認証方式を決める",
-      content: "web文献を漁る",
+      title: 'Remix で認証方式を決める',
+      content: 'web文献を漁る',
     },
   ];
 }
