@@ -2,13 +2,12 @@ import type { User } from '@prisma/client';
 import type { LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
-import { getTodoRecords } from '~/queries/getTodoRecords';
 import { authenticateUser } from '~/utils/firebase.server';
 
 export const loader = async ({ request }: LoaderArgs) => {
   const currentUser = (await authenticateUser(request)) as User;
-  const todos = await getTodoRecords();
-
+  const todos = currentUser.todos
+  
   return json({
     currentUser,
     todos,

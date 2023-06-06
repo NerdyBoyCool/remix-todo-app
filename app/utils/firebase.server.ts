@@ -18,7 +18,7 @@ import {
 } from '@remix-run/node';
 import { createUser } from '~/mutations/createUser';
 import { destroySession } from '~/session';
-import { getUserRecord } from '~/queries/getUserRecord';
+import { me } from '~/queries/me';
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -107,6 +107,16 @@ export const getUserId = async (request: Request) => {
   return userId;
 };
 
+export const getUser = async (request: Request) => {
+  const userId = await getUserId(request);
+  
+  if (!userId) {
+    return null
+  }
+
+  return await me(userId)
+}
+
 export const authenticateUser = async (
   request: Request
 ): Promise<void | User> => {
@@ -118,7 +128,7 @@ export const authenticateUser = async (
       headers: { 'Set-Cookie': await destroySession(session) },
     });
   } else {
-    return await getUserRecord(userId);
+    return await me(userId);
   }
 };
 
