@@ -1,5 +1,4 @@
 import type { User } from '@prisma/client';
-import { json } from '@remix-run/node';
 import { db } from '~/utils/db.server';
 
 export const createUser = async (data: User) => {
@@ -8,5 +7,5 @@ export const createUser = async (data: User) => {
     throw new Error('Unexpected Error');
   }
 
-  return json({ user });
+  return user;
 };

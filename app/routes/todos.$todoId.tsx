@@ -1,6 +1,6 @@
 import type { LoaderArgs } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
-import { todo } from '~/queries/todo';
+import { get } from '~/queries/getTodoRecord';
 
 export const loader = async ({ params }: LoaderArgs) =>
   await todo(params.todoId!);

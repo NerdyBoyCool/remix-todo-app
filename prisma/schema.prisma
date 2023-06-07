@@ -11,14 +11,17 @@ datasource db {
 }
 
 model Todo {
-  id         String   @id @default(uuid())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  title      String
-  content    String
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  content   String
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id         String @id
-  email      String
+  id    String @id
+  email String
+  todos Todo[]
 }

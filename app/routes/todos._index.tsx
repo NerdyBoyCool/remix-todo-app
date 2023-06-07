@@ -1,7 +1,20 @@
+import type { LoaderArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
-import { todos } from '~/queries/todos';
+import { authenticator } from '~/utils/auth.server';
 
-export const loader = async () => await todos();
+export const loader = async ({ request }: LoaderArgs) => {
+  const currentUser = await authenticator.isAuthenticated(request, {
+    failureRedirect: "/login",
+  })
+
+  const todos = currentUser.todos
+  
+  return json({
+    currentUser,
+    todos,
+  });
+};
 
 export default function TodosRoute() {
   const { todos } = useLoaderData<typeof loader>();
