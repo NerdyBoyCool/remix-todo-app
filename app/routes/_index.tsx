@@ -15,8 +15,7 @@ export const links: LinksFunction = () => {
 export default function Index() {
   return (
     <div>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-      <Link to="/todos">Todos</Link>
+
     </div>
   );
 }

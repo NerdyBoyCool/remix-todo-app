@@ -14,6 +14,8 @@ export const validator = withZod(userSchema);
 
 export const action = async ({ request }: DataFunctionArgs) => {
   const form = await validator.validate(await request.formData());
+  console.log(form);
+  
   if (form.error) return validationError(form.error);
 
   const { email, password } = form.data;

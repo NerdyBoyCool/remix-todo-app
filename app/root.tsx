@@ -29,12 +29,12 @@ export const links: LinksFunction = () => {
 };
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const currentUser = await getUser(request);
+//   // const currentUser = await getUser(request);
 
-  return json({
-    currentUser,
-  });
-};
+//   // return json({
+//   //   currentUser,
+//   // });
+// };
 
 export default function App() {
   const { currentUser } = useLoaderData<typeof loader>();

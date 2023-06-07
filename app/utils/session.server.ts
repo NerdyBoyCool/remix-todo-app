@@ -5,7 +5,7 @@ if (!sessionSecret) {
   throw new Error('SESSION_SECRET must be set');
 }
 
-export const storage = createCookieSessionStorage({
+export const sessionStorage = createCookieSessionStorage({
   cookie: {
     name: '__session',
     secure: process.env.NODE_ENV === 'production',
@@ -18,5 +18,5 @@ export const storage = createCookieSessionStorage({
 });
 
 export const getUserSession = (request: Request) => {
-  return storage.getSession(request.headers.get('Cookie'));
+  return sessionStorage.getSession(request.headers.get('Cookie'));
 };

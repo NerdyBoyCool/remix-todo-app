@@ -1,11 +1,13 @@
-import type { User } from '@prisma/client';
 import type { LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
-import { authenticateUser } from '~/utils/firebase.server';
+import { authenticator } from '~/utils/auth.server';
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const currentUser = (await authenticateUser(request)) as User;
+  const currentUser = await authenticator.isAuthenticated(request, {
+    failureRedirect: "/login",
+  })
+
   const todos = currentUser.todos
   
   return json({
