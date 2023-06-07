@@ -12,7 +12,6 @@ import {
 } from 'firebase/auth';
 import AppError from '~/appError';
 import {
-  TypedResponse,
   createCookieSessionStorage,
   redirect,
 } from '@remix-run/node';

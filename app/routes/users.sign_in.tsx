@@ -6,7 +6,6 @@ import { FormButton } from '~/components/FormButton';
 import { userSchema } from '~/zod/schema';
 import { withZod } from '@remix-validated-form/with-zod';
 import {
-  getUserId,
   signIn,
   validationFirebaseAuthError,
 } from '~/utils/firebase.server';
